@@ -1,0 +1,6 @@
+@QLCH_BE_HostAddress = http://localhost:5238
+
+GET {{QLCH_BE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
