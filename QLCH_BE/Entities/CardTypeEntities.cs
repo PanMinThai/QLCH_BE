@@ -2,6 +2,6 @@
 {
     public class CardTypeEntities
     {
-
+        public int Id { get; set; }
     }
 }
