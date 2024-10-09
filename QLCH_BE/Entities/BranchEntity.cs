@@ -1,6 +1,6 @@
 ﻿namespace QLCH_BE.Entities
 {
-    public class BranchEntities
+    public class BranchEntity
     {
         public Guid BranchId { get; set; }
 

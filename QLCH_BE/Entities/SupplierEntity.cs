@@ -1,6 +1,6 @@
 ﻿namespace QLCH_BE.Entities
 {
-    public class SupplierEntities
+    public class SupplierEntities // Nhà cung cấp
     {
         public Guid Idsupplier{ get; set; }
 

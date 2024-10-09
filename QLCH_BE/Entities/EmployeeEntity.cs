@@ -1,6 +1,6 @@
 ﻿namespace QLCH_BE.Entities
 {
-    public class EmployeeEntities
+    public class EmployeeEntity
     {
         public Guid Idemployee { get; set; }
 

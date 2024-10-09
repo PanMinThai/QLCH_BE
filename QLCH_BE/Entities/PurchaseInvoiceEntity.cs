@@ -1,8 +1,9 @@
 ﻿namespace QLCH_BE.Entities
 {
-    public class PurchaseOrderEntities
+    public class PurchaseInvoiceEntity // Hóa đơn nhập hàng
     {
-        public Guid PurchaseOrderId { get; set; }
+        public Guid PurchaseInvoiceId { get; set; }  
+
         public Guid EmployeeId { get; set; }
 
         public Guid? SupplierId { get; set; }

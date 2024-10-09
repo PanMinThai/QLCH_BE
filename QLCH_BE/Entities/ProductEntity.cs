@@ -1,6 +1,6 @@
 ﻿namespace QLCH_BE.Entities
 {
-    public class ProductEntities
+    public class ProductEntity
     {
          public Guid Idproduct { get; set; } 
 
