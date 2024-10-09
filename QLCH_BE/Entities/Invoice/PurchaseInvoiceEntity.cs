@@ -1,8 +1,8 @@
-﻿namespace QLCH_BE.Entities
+﻿namespace QLCH_BE.Entities.Invoice
 {
     public class PurchaseInvoiceEntity // Hóa đơn nhập hàng
     {
-        public Guid PurchaseInvoiceId { get; set; }  
+        public Guid PurchaseInvoiceId { get; set; }
 
         public Guid EmployeeId { get; set; }
 

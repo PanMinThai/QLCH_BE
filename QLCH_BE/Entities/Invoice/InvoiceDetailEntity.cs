@@ -1,4 +1,4 @@
-﻿namespace QLCH_BE.Entities
+﻿namespace QLCH_BE.Entities.Invoice
 {
     public class InvoiceDetailEntity // Chi tiết hóa đơn
     {
