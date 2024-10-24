@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using QLCH_BE.Repositories;
+
 namespace QLCH_BE
 {
     public class Program
@@ -6,13 +9,26 @@ namespace QLCH_BE
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddAutoMapper(typeof(Program));
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddScoped<IBranchRepository,BranchRepository>();
+            builder.Services.AddScoped<ICardTypeRepository,CardTypeRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IMembershipCardRepository, MembershipCardRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<StoreManagementDbContext>(options =>
+            {
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
 
             var app = builder.Build();
 

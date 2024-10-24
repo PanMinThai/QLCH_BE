@@ -1,11 +1,14 @@
-﻿namespace QLCH_BE.Entities
-{
-    public class MembershipCardEntities
-    {
-        public Guid MembershipCardId { get; set; }
+﻿using QLCH_BE.Entities.Objects;
+using System.ComponentModel.DataAnnotations;
 
-        public Guid? CardTypeId { get; set; }
-        public string? CustomernName { get; set; }
+namespace QLCH_BE.Models
+{
+    public class MembershipCardModel
+    {
+        [Key]
+        public Guid MembershipCardId { get; set; }
+        public Guid CardTypeId { get; set; }
+        public string CustomerName { get; set; }
 
         public string? Phonenumber { get; set; }
 
@@ -19,10 +22,7 @@
 
         public decimal? UsedAmount { get; set; }
 
-        public bool? Gender { get; set; }
-
-        public string? Address { get; set; }
-
-        public string? Notes { get; set; }
+        public bool Gender { get; set; }
+        public string? Note { get; set; }
     }
 }

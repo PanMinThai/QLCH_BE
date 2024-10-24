@@ -1,9 +1,12 @@
-﻿namespace QLCH_BE.Entities.Invoice
-{
-    public class InvoiceDetailEntity // Chi tiết hóa đơn
-    {
-        public Guid InvoiceDetailId { get; set; }
+﻿using QLCH_BE.Entities.Invoice;
+using System.ComponentModel.DataAnnotations;
 
+namespace QLCH_BE.Models
+{
+    public class InvoiceDetailModel
+    {
+        [Key]
+        public Guid InvoiceDetalId { get; set; }
         public Guid? InvoiceId { get; set; }
 
         public Guid? ProductId { get; set; }
@@ -17,7 +20,6 @@
         public decimal? UnitPrice { get; set; }
 
         public decimal? TotalAmount { get; set; }
-
-        public string? Notes { get; set; }
+        public string? Note { get; set; }
     }
 }
