@@ -12,7 +12,7 @@ using QLCH_BE;
 namespace QLCH_BE.Migrations
 {
     [DbContext(typeof(StoreManagementDbContext))]
-    [Migration("20241019235936_init")]
+    [Migration("20241027040525_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -371,26 +371,21 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("FistName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -864,7 +859,7 @@ namespace QLCH_BE.Migrations
             modelBuilder.Entity("QLCH_BE.Entities.Objects.MembershipCardEntity", b =>
                 {
                     b.HasOne("QLCH_BE.Entities.Objects.CardTypeEntity", "CardType")
-                        .WithMany()
+                        .WithMany("membershipcard")
                         .HasForeignKey("CardTypeId");
 
                     b.Navigation("CardType");
@@ -887,6 +882,11 @@ namespace QLCH_BE.Migrations
                     b.Navigation("Invoices");
 
                     b.Navigation("PurchaseInvoices");
+                });
+
+            modelBuilder.Entity("QLCH_BE.Entities.Objects.CardTypeEntity", b =>
+                {
+                    b.Navigation("membershipcard");
                 });
 
             modelBuilder.Entity("QLCH_BE.Entities.Objects.ProductEntity", b =>

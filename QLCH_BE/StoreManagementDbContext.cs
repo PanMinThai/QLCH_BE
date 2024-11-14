@@ -5,6 +5,7 @@ using QLCH_BE.Common.Interface;
 using QLCH_BE.Entities.Common;
 using QLCH_BE.Entities.Invoice;
 using QLCH_BE.Entities.Objects;
+using QLCH_BE.Models;
 
 namespace QLCH_BE
 {
@@ -45,7 +46,7 @@ namespace QLCH_BE
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+          
             builder.Entity<ProductEntity>()
                    .HasOne(a => a.Image)
                    .WithOne(b => b.Product)
