@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QLCH_BE.Entities.Common;
 using QLCH_BE.Models;
 using QLCH_BE.Repositories;
 
@@ -28,6 +29,7 @@ namespace QLCH_BE.Controllers
             return Ok(branch);
         }
         [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Create(BranchModel model)
         {
             var id = await _repository.CreateBranchAsync(model);
@@ -35,12 +37,14 @@ namespace QLCH_BE.Controllers
             return Ok(branch);
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _repository.DeleteBranchAsync(id);
             return Ok();
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Update(BranchModel model, Guid id)
         {
             await _repository.UpdateBranchAsync(model,id);

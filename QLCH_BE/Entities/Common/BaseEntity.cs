@@ -8,8 +8,8 @@ namespace QLCH_BE.Entities.Common
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
-        public DateTime CreateTime { get; set; }
-        public DateTime UpdateTime { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
         public string? Note { get; set; }
         public BaseEntity() { }
     }

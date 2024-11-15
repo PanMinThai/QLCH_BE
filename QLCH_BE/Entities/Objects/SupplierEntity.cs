@@ -1,4 +1,5 @@
 ﻿using QLCH_BE.Entities.Common;
+using QLCH_BE.Entities.Invoice;
 
 namespace QLCH_BE.Entities.Objects
 {
@@ -16,6 +17,7 @@ namespace QLCH_BE.Entities.Objects
         public decimal? TotalPurchaseAmount { get; set; }
 
         public decimal? TotalAmountPaid { get; set; }
+        public ICollection<PurchaseInvoiceEntity> PurchaseInvoices { get; set; }
         public SupplierEntity() { }
     }
 }

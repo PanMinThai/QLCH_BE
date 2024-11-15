@@ -6,8 +6,7 @@ namespace QLCH_BE.Entities.Invoice
 {
     public class PurchaseInvoiceEntity : BaseInvoiceEntity // Hóa đơn nhập hàng
     {
-        [ForeignKey(nameof(Supplier))]
-        public Guid? SupplierId { get; set; }
+        public Guid SupplierId { get; set; }
         public SupplierEntity Supplier { get; set; }
 
         public decimal? Discount { get; set; }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QLCH_BE.Entities.Common;
 using QLCH_BE.Models;
 using QLCH_BE.Repositories;
 
@@ -27,6 +29,7 @@ namespace QLCH_BE.Controllers
             return Ok(suplier);
         }
         [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Create(SupplierModel model)
         {
             var id = await _repository.CreateSupplier(model);
@@ -34,12 +37,14 @@ namespace QLCH_BE.Controllers
             return Ok(supplier);
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _repository.DeleteSupplier(id);
             return Ok();
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Update(SupplierModel model, Guid id)
         {
             await _repository.UpdateSupplier(model, id);

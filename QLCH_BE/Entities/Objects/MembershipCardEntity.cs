@@ -1,11 +1,11 @@
 ﻿using QLCH_BE.Entities.Common;
+using QLCH_BE.Entities.Invoice;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QLCH_BE.Entities.Objects
 {
     public class MembershipCardEntity : BaseEntity
     {
-        [ForeignKey(nameof(CardType))]
         public Guid? CardTypeId { get; set; }
         public CardTypeEntity CardType { get; set; }
         public string CustomerName { get; set; }
@@ -23,6 +23,7 @@ namespace QLCH_BE.Entities.Objects
         public decimal? UsedAmount { get; set; }
 
         public bool Gender { get; set; }
+        public ICollection<InvoiceEntity> Invoices { get; set; }
         public MembershipCardEntity() { }
     }
 }

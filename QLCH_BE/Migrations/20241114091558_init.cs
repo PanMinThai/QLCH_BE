@@ -16,7 +16,7 @@ namespace QLCH_BE.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
@@ -30,10 +30,10 @@ namespace QLCH_BE.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -61,8 +61,8 @@ namespace QLCH_BE.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     BranchName = table.Column<string>(type: "text", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -77,8 +77,8 @@ namespace QLCH_BE.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CardTypeName = table.Column<string>(type: "text", nullable: false),
                     Limit = table.Column<string>(type: "text", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -97,8 +97,8 @@ namespace QLCH_BE.Migrations
                     Costprice = table.Column<decimal>(type: "numeric", nullable: true),
                     Unit = table.Column<string>(type: "text", nullable: false),
                     Avaiablequatity = table.Column<int>(type: "integer", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -117,8 +117,8 @@ namespace QLCH_BE.Migrations
                     Address = table.Column<string>(type: "text", nullable: false),
                     TotalPurchaseAmount = table.Column<decimal>(type: "numeric", nullable: true),
                     TotalAmountPaid = table.Column<decimal>(type: "numeric", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -132,7 +132,7 @@ namespace QLCH_BE.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
                     ClaimType = table.Column<string>(type: "text", nullable: true),
                     ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
@@ -153,7 +153,7 @@ namespace QLCH_BE.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     ClaimType = table.Column<string>(type: "text", nullable: true),
                     ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
@@ -175,7 +175,7 @@ namespace QLCH_BE.Migrations
                     LoginProvider = table.Column<string>(type: "text", nullable: false),
                     ProviderKey = table.Column<string>(type: "text", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<string>(type: "text", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -192,8 +192,8 @@ namespace QLCH_BE.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    RoleId = table.Column<string>(type: "text", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -216,7 +216,7 @@ namespace QLCH_BE.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     LoginProvider = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: true)
@@ -237,63 +237,32 @@ namespace QLCH_BE.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Idbranch = table.Column<Guid>(type: "uuid", nullable: true),
-                    Idaccount = table.Column<string>(type: "text", nullable: true),
-                    Nameemployee = table.Column<string>(type: "text", nullable: false),
-                    Phonenumber = table.Column<string>(type: "text", nullable: true),
-                    Startingdate = table.Column<string>(type: "text", nullable: true),
+                    BranchId = table.Column<Guid>(type: "uuid", nullable: true),
+                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    NameEmployee = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    StartingDate = table.Column<string>(type: "text", nullable: true),
                     NationalIdcard = table.Column<string>(type: "text", nullable: true),
-                    Dateofbirth = table.Column<string>(type: "text", nullable: true),
+                    DateOfbirth = table.Column<string>(type: "text", nullable: true),
                     Gender = table.Column<bool>(type: "boolean", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: true),
                     Address = table.Column<string>(type: "text", nullable: true),
                     Position = table.Column<string>(type: "text", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employees_AspNetUsers_Idaccount",
-                        column: x => x.Idaccount,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Employees_Branches_Idbranch",
-                        column: x => x.Idbranch,
-                        principalTable: "Branches",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ExpenseInvoices",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ExpenseInvoiceName = table.Column<string>(type: "text", nullable: true),
-                    ExpenseAmount = table.Column<decimal>(type: "numeric", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Note = table.Column<string>(type: "text", nullable: true),
-                    AppUserID = table.Column<string>(type: "text", nullable: false),
-                    BranchId = table.Column<Guid>(type: "uuid", nullable: true),
-                    time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    TotalAmount = table.Column<double>(type: "double precision", nullable: false),
-                    Notes = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExpenseInvoices", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ExpenseInvoices_AspNetUsers_AppUserID",
-                        column: x => x.AppUserID,
+                        name: "FK_Employees_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ExpenseInvoices_Branches_BranchId",
+                        name: "FK_Employees_Branches_BranchId",
                         column: x => x.BranchId,
                         principalTable: "Branches",
                         principalColumn: "Id");
@@ -313,8 +282,8 @@ namespace QLCH_BE.Migrations
                     AccumulatedAmount = table.Column<decimal>(type: "numeric", nullable: true),
                     UsedAmount = table.Column<decimal>(type: "numeric", nullable: true),
                     Gender = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -332,8 +301,8 @@ namespace QLCH_BE.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -348,20 +317,55 @@ namespace QLCH_BE.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ExpenseInvoices",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExpenseInvoiceName = table.Column<string>(type: "text", nullable: true),
+                    ExpenseAmount = table.Column<decimal>(type: "numeric", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Note = table.Column<string>(type: "text", nullable: true),
+                    EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BranchId = table.Column<Guid>(type: "uuid", nullable: true),
+                    BrandId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TotalAmount = table.Column<double>(type: "double precision", nullable: false),
+                    Notes = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExpenseInvoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExpenseInvoices_Branches_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Branches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExpenseInvoices_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PurchaseInvoices",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SupplierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SupplierId = table.Column<Guid>(type: "uuid", nullable: false),
                     Discount = table.Column<decimal>(type: "numeric", nullable: true),
                     TotalAmountAfterDiscount = table.Column<decimal>(type: "numeric", nullable: true),
                     TotalAmountPayable = table.Column<decimal>(type: "numeric", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true),
-                    AppUserID = table.Column<string>(type: "text", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: true),
-                    time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BrandId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TotalAmount = table.Column<double>(type: "double precision", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true)
                 },
@@ -369,21 +373,23 @@ namespace QLCH_BE.Migrations
                 {
                     table.PrimaryKey("PK_PurchaseInvoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PurchaseInvoices_AspNetUsers_AppUserID",
-                        column: x => x.AppUserID,
-                        principalTable: "AspNetUsers",
+                        name: "FK_PurchaseInvoices_Branches_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Branches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PurchaseInvoices_Branches_BranchId",
-                        column: x => x.BranchId,
-                        principalTable: "Branches",
-                        principalColumn: "Id");
+                        name: "FK_PurchaseInvoices_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PurchaseInvoices_Suppliers_SupplierId",
                         column: x => x.SupplierId,
                         principalTable: "Suppliers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -394,12 +400,13 @@ namespace QLCH_BE.Migrations
                     MembershipCardId = table.Column<Guid>(type: "uuid", nullable: true),
                     Discount = table.Column<decimal>(type: "numeric", nullable: false),
                     PayableAmount = table.Column<decimal>(type: "numeric", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true),
-                    AppUserID = table.Column<string>(type: "text", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: true),
-                    time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BrandId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TotalAmount = table.Column<double>(type: "double precision", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true)
                 },
@@ -407,16 +414,17 @@ namespace QLCH_BE.Migrations
                 {
                     table.PrimaryKey("PK_Invoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invoices_AspNetUsers_AppUserID",
-                        column: x => x.AppUserID,
-                        principalTable: "AspNetUsers",
+                        name: "FK_Invoices_Branches_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Branches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Invoices_Branches_BranchId",
-                        column: x => x.BranchId,
-                        principalTable: "Branches",
-                        principalColumn: "Id");
+                        name: "FK_Invoices_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Invoices_MembershipCards_MembershipCardId",
                         column: x => x.MembershipCardId,
@@ -431,13 +439,13 @@ namespace QLCH_BE.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     InvoiceId = table.Column<Guid>(type: "uuid", nullable: true),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: true),
-                    PurchaseOrderId = table.Column<Guid>(type: "uuid", nullable: true),
+                    PurchaseInvoiceId = table.Column<Guid>(type: "uuid", nullable: true),
                     Discount = table.Column<decimal>(type: "numeric", nullable: true),
                     Quantity = table.Column<int>(type: "integer", nullable: true),
                     UnitPrice = table.Column<decimal>(type: "numeric", nullable: true),
                     TotalAmount = table.Column<decimal>(type: "numeric", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -454,8 +462,8 @@ namespace QLCH_BE.Migrations
                         principalTable: "Products",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_InvoiceDetails_PurchaseInvoices_PurchaseOrderId",
-                        column: x => x.PurchaseOrderId,
+                        name: "FK_InvoiceDetails_PurchaseInvoices_PurchaseInvoiceId",
+                        column: x => x.PurchaseInvoiceId,
                         principalTable: "PurchaseInvoices",
                         principalColumn: "Id");
                 });
@@ -498,24 +506,25 @@ namespace QLCH_BE.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_Idaccount",
+                name: "IX_Employees_AppUserId",
                 table: "Employees",
-                column: "Idaccount");
+                column: "AppUserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_Idbranch",
+                name: "IX_Employees_BranchId",
                 table: "Employees",
-                column: "Idbranch");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExpenseInvoices_AppUserID",
-                table: "ExpenseInvoices",
-                column: "AppUserID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExpenseInvoices_BranchId",
-                table: "ExpenseInvoices",
                 column: "BranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExpenseInvoices_BrandId",
+                table: "ExpenseInvoices",
+                column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExpenseInvoices_EmployeeId",
+                table: "ExpenseInvoices",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceDetails_InvoiceId",
@@ -528,19 +537,19 @@ namespace QLCH_BE.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoiceDetails_PurchaseOrderId",
+                name: "IX_InvoiceDetails_PurchaseInvoiceId",
                 table: "InvoiceDetails",
-                column: "PurchaseOrderId");
+                column: "PurchaseInvoiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoices_AppUserID",
+                name: "IX_Invoices_BrandId",
                 table: "Invoices",
-                column: "AppUserID");
+                column: "BrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoices_BranchId",
+                name: "IX_Invoices_EmployeeId",
                 table: "Invoices",
-                column: "BranchId");
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_MembershipCardId",
@@ -553,14 +562,14 @@ namespace QLCH_BE.Migrations
                 column: "CardTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PurchaseInvoices_AppUserID",
+                name: "IX_PurchaseInvoices_BrandId",
                 table: "PurchaseInvoices",
-                column: "AppUserID");
+                column: "BrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PurchaseInvoices_BranchId",
+                name: "IX_PurchaseInvoices_EmployeeId",
                 table: "PurchaseInvoices",
-                column: "BranchId");
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseInvoices_SupplierId",
@@ -587,9 +596,6 @@ namespace QLCH_BE.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
                 name: "ExpenseInvoices");
 
             migrationBuilder.DropTable(
@@ -614,16 +620,19 @@ namespace QLCH_BE.Migrations
                 name: "MembershipCards");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Branches");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");
 
             migrationBuilder.DropTable(
                 name: "CardTypes");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Branches");
         }
     }
 }

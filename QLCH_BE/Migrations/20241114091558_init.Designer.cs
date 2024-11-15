@@ -12,7 +12,7 @@ using QLCH_BE;
 namespace QLCH_BE.Migrations
 {
     [DbContext(typeof(StoreManagementDbContext))]
-    [Migration("20241027040525_init")]
+    [Migration("20241114091558_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -25,10 +25,11 @@ namespace QLCH_BE.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -51,7 +52,7 @@ namespace QLCH_BE.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,9 +66,8 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -76,7 +76,7 @@ namespace QLCH_BE.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -90,9 +90,8 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -101,7 +100,7 @@ namespace QLCH_BE.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");
@@ -112,9 +111,8 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -123,13 +121,13 @@ namespace QLCH_BE.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -138,10 +136,10 @@ namespace QLCH_BE.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");
@@ -163,15 +161,17 @@ namespace QLCH_BE.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AppUserID")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid?>("BranchId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<Guid>("BrandId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uuid");
 
                     b.Property<decimal?>("ExpenseAmount")
                         .HasColumnType("numeric");
@@ -185,20 +185,20 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<double>("TotalAmount")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("time")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserID");
+                    b.HasIndex("BrandId");
 
-                    b.HasIndex("BranchId");
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("ExpenseInvoices");
                 });
@@ -209,7 +209,7 @@ namespace QLCH_BE.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal?>("Discount")
@@ -224,7 +224,7 @@ namespace QLCH_BE.Migrations
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("PurchaseOrderId")
+                    b.Property<Guid?>("PurchaseInvoiceId")
                         .HasColumnType("uuid");
 
                     b.Property<int?>("Quantity")
@@ -236,7 +236,7 @@ namespace QLCH_BE.Migrations
                     b.Property<decimal?>("UnitPrice")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTime>("UpdateTime")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -245,7 +245,7 @@ namespace QLCH_BE.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("PurchaseOrderId");
+                    b.HasIndex("PurchaseInvoiceId");
 
                     b.ToTable("InvoiceDetails");
                 });
@@ -256,18 +256,20 @@ namespace QLCH_BE.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AppUserID")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid?>("BranchId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<Guid>("BrandId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("numeric");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("MembershipCardId")
                         .HasColumnType("uuid");
@@ -281,20 +283,20 @@ namespace QLCH_BE.Migrations
                     b.Property<decimal>("PayableAmount")
                         .HasColumnType("numeric");
 
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<double>("TotalAmount")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("time")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserID");
+                    b.HasIndex("BrandId");
 
-                    b.HasIndex("BranchId");
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("MembershipCardId");
 
@@ -307,18 +309,20 @@ namespace QLCH_BE.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AppUserID")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid?>("BranchId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<Guid>("BrandId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal?>("Discount")
                         .HasColumnType("numeric");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Note")
                         .HasColumnType("text");
@@ -326,8 +330,11 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("SupplierId")
+                    b.Property<Guid>("SupplierId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<double>("TotalAmount")
                         .HasColumnType("double precision");
@@ -338,27 +345,25 @@ namespace QLCH_BE.Migrations
                     b.Property<decimal?>("TotalAmountPayable")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTime>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("time")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserID");
+                    b.HasIndex("BrandId");
 
-                    b.HasIndex("BranchId");
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("SupplierId");
 
                     b.ToTable("PurchaseInvoices");
                 });
 
-            modelBuilder.Entity("QLCH_BE.Entities.Objects.AppUser", b =>
+            modelBuilder.Entity("QLCH_BE.Entities.Objects.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
@@ -367,7 +372,7 @@ namespace QLCH_BE.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
@@ -410,7 +415,7 @@ namespace QLCH_BE.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("UpdateTime")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserName")
@@ -443,13 +448,13 @@ namespace QLCH_BE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdateTime")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -467,7 +472,7 @@ namespace QLCH_BE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Limit")
@@ -477,7 +482,7 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdateTime")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -494,10 +499,16 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("BranchId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Dateofbirth")
+                    b.Property<string>("DateOfbirth")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
@@ -506,13 +517,7 @@ namespace QLCH_BE.Migrations
                     b.Property<bool>("Gender")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Idaccount")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("Idbranch")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Nameemployee")
+                    b.Property<string>("NameEmployee")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -522,23 +527,24 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
-                    b.Property<string>("Phonenumber")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
                     b.Property<string>("Position")
                         .HasColumnType("text");
 
-                    b.Property<string>("Startingdate")
+                    b.Property<string>("StartingDate")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdateTime")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Idaccount");
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
 
-                    b.HasIndex("Idbranch");
+                    b.HasIndex("BranchId");
 
                     b.ToTable("Employees");
                 });
@@ -549,13 +555,13 @@ namespace QLCH_BE.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdateTime")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -578,7 +584,7 @@ namespace QLCH_BE.Migrations
                     b.Property<Guid?>("CardTypeId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CustomerName")
@@ -597,7 +603,7 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("Phonenumber")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdateTime")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal?>("UsedAmount")
@@ -625,7 +631,7 @@ namespace QLCH_BE.Migrations
                     b.Property<decimal?>("Costprice")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("ImageId")
@@ -645,7 +651,7 @@ namespace QLCH_BE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdateTime")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -663,7 +669,7 @@ namespace QLCH_BE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Note")
@@ -687,7 +693,7 @@ namespace QLCH_BE.Migrations
                     b.Property<decimal?>("TotalPurchaseAmount")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTime>("UpdateTime")
+                    b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -695,51 +701,51 @@ namespace QLCH_BE.Migrations
                     b.ToTable("Suppliers");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("QLCH_BE.Entities.Objects.AppUser", null)
+                    b.HasOne("QLCH_BE.Entities.Objects.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("QLCH_BE.Entities.Objects.AppUser", null)
+                    b.HasOne("QLCH_BE.Entities.Objects.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QLCH_BE.Entities.Objects.AppUser", null)
+                    b.HasOne("QLCH_BE.Entities.Objects.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("QLCH_BE.Entities.Objects.AppUser", null)
+                    b.HasOne("QLCH_BE.Entities.Objects.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -748,19 +754,21 @@ namespace QLCH_BE.Migrations
 
             modelBuilder.Entity("QLCH_BE.Entities.Invoice.ExpenseInvoiceEntity", b =>
                 {
-                    b.HasOne("QLCH_BE.Entities.Objects.AppUser", "appUser")
-                        .WithMany("ExpenseInvoices")
-                        .HasForeignKey("AppUserID")
+                    b.HasOne("QLCH_BE.Entities.Objects.BranchEntity", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QLCH_BE.Entities.Objects.BranchEntity", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BranchId");
+                    b.HasOne("QLCH_BE.Entities.Objects.EmployeeEntity", "Employee")
+                        .WithMany("ExpenseInvoices")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Brand");
 
-                    b.Navigation("appUser");
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("QLCH_BE.Entities.Invoice.InvoiceDetailEntity", b =>
@@ -770,12 +778,12 @@ namespace QLCH_BE.Migrations
                         .HasForeignKey("InvoiceId");
 
                     b.HasOne("QLCH_BE.Entities.Objects.ProductEntity", "Product")
-                        .WithMany()
+                        .WithMany("InvoiceDetails")
                         .HasForeignKey("ProductId");
 
                     b.HasOne("QLCH_BE.Entities.Invoice.PurchaseInvoiceEntity", "PurchaseInvoice")
                         .WithMany("InvoiceDetails")
-                        .HasForeignKey("PurchaseOrderId");
+                        .HasForeignKey("PurchaseInvoiceId");
 
                     b.Navigation("Invoice");
 
@@ -786,61 +794,69 @@ namespace QLCH_BE.Migrations
 
             modelBuilder.Entity("QLCH_BE.Entities.Invoice.InvoiceEntity", b =>
                 {
-                    b.HasOne("QLCH_BE.Entities.Objects.AppUser", "appUser")
-                        .WithMany("Invoices")
-                        .HasForeignKey("AppUserID")
+                    b.HasOne("QLCH_BE.Entities.Objects.BranchEntity", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QLCH_BE.Entities.Objects.BranchEntity", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BranchId");
+                    b.HasOne("QLCH_BE.Entities.Objects.EmployeeEntity", "Employee")
+                        .WithMany("Invoices")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("QLCH_BE.Entities.Objects.MembershipCardEntity", "MembershipCard")
-                        .WithMany()
+                        .WithMany("Invoices")
                         .HasForeignKey("MembershipCardId");
 
                     b.Navigation("Brand");
 
-                    b.Navigation("MembershipCard");
+                    b.Navigation("Employee");
 
-                    b.Navigation("appUser");
+                    b.Navigation("MembershipCard");
                 });
 
             modelBuilder.Entity("QLCH_BE.Entities.Invoice.PurchaseInvoiceEntity", b =>
                 {
-                    b.HasOne("QLCH_BE.Entities.Objects.AppUser", "appUser")
-                        .WithMany("PurchaseInvoices")
-                        .HasForeignKey("AppUserID")
+                    b.HasOne("QLCH_BE.Entities.Objects.BranchEntity", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QLCH_BE.Entities.Objects.BranchEntity", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BranchId");
+                    b.HasOne("QLCH_BE.Entities.Objects.EmployeeEntity", "Employee")
+                        .WithMany("PurchaseInvoices")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("QLCH_BE.Entities.Objects.SupplierEntity", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierId");
+                        .WithMany("PurchaseInvoices")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Brand");
 
-                    b.Navigation("Supplier");
+                    b.Navigation("Employee");
 
-                    b.Navigation("appUser");
+                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("QLCH_BE.Entities.Objects.EmployeeEntity", b =>
                 {
-                    b.HasOne("QLCH_BE.Entities.Objects.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("Idaccount");
+                    b.HasOne("QLCH_BE.Entities.Objects.ApplicationUser", "ApplicationUser")
+                        .WithOne("Employee")
+                        .HasForeignKey("QLCH_BE.Entities.Objects.EmployeeEntity", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("QLCH_BE.Entities.Objects.BranchEntity", "Branch")
-                        .WithMany()
-                        .HasForeignKey("Idbranch");
+                        .WithMany("Employees")
+                        .HasForeignKey("BranchId");
 
-                    b.Navigation("AppUser");
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Branch");
                 });
@@ -859,7 +875,7 @@ namespace QLCH_BE.Migrations
             modelBuilder.Entity("QLCH_BE.Entities.Objects.MembershipCardEntity", b =>
                 {
                     b.HasOne("QLCH_BE.Entities.Objects.CardTypeEntity", "CardType")
-                        .WithMany("membershipcard")
+                        .WithMany("Membershipcard")
                         .HasForeignKey("CardTypeId");
 
                     b.Navigation("CardType");
@@ -875,7 +891,22 @@ namespace QLCH_BE.Migrations
                     b.Navigation("InvoiceDetails");
                 });
 
-            modelBuilder.Entity("QLCH_BE.Entities.Objects.AppUser", b =>
+            modelBuilder.Entity("QLCH_BE.Entities.Objects.ApplicationUser", b =>
+                {
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("QLCH_BE.Entities.Objects.BranchEntity", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("QLCH_BE.Entities.Objects.CardTypeEntity", b =>
+                {
+                    b.Navigation("Membershipcard");
+                });
+
+            modelBuilder.Entity("QLCH_BE.Entities.Objects.EmployeeEntity", b =>
                 {
                     b.Navigation("ExpenseInvoices");
 
@@ -884,14 +915,21 @@ namespace QLCH_BE.Migrations
                     b.Navigation("PurchaseInvoices");
                 });
 
-            modelBuilder.Entity("QLCH_BE.Entities.Objects.CardTypeEntity", b =>
+            modelBuilder.Entity("QLCH_BE.Entities.Objects.MembershipCardEntity", b =>
                 {
-                    b.Navigation("membershipcard");
+                    b.Navigation("Invoices");
                 });
 
             modelBuilder.Entity("QLCH_BE.Entities.Objects.ProductEntity", b =>
                 {
                     b.Navigation("Image");
+
+                    b.Navigation("InvoiceDetails");
+                });
+
+            modelBuilder.Entity("QLCH_BE.Entities.Objects.SupplierEntity", b =>
+                {
+                    b.Navigation("PurchaseInvoices");
                 });
 #pragma warning restore 612, 618
         }

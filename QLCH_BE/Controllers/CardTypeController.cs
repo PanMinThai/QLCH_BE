@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QLCH_BE.Entities.Common;
 using QLCH_BE.Models;
 using QLCH_BE.Repositories;
 using System.Reflection.Metadata.Ecma335;
@@ -29,18 +31,21 @@ namespace QLCH_BE.Controllers
             return Ok(cardtype);
         }
         [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin + "," +  ApplicationRole.Manager)]
         public async Task<ActionResult> Create(CardTypeModel model)
         {
             await _repository.CreateCardTypeAsync(model);
             return Ok();
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _repository.DeleteCardTypeAsync(id);
             return Ok();
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Update(CardTypeModel model,Guid id)
         {
             await _repository.UpdateCardTypeAsync(model, id);

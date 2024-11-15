@@ -6,7 +6,6 @@ namespace QLCH_BE.Entities.Invoice
 {
     public class InvoiceEntity :BaseInvoiceEntity
     {
-        [ForeignKey(nameof(MembershipCard))]
         public Guid? MembershipCardId { get; set; }
         public MembershipCardEntity MembershipCard { get; set; }
         public decimal Discount {  get; set; }

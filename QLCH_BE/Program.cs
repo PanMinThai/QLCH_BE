@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text;
+using QLCH_BE.Common.Interface;
+using QLCH_BE.Entities.Objects;
 
 namespace QLCH_BE
 {
@@ -25,6 +28,9 @@ namespace QLCH_BE
             builder.Services.AddScoped<IMembershipCardRepository, MembershipCardRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+            builder.Services.AddScoped<IStoreManagementDbContext, StoreManagementDbContext>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -43,6 +49,7 @@ namespace QLCH_BE
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             builder.Services.AddCors(options =>
             {
@@ -50,29 +57,34 @@ namespace QLCH_BE
                     builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
             // identity
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<StoreManagementDbContext>()
             .AddDefaultTokenProviders();
-            //builder.Services.AddIdentityApiEndpoints<IdentityUser>().
-            //AddRoles<IdentityRole>().
-            //AddEntityFrameworkStores<StoreManagementDbContext>();
-
-            builder.Services.AddAuthentication(options =>
-            {
+            builder.Services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
+                    ValidAudience = builder.Configuration["JWT:ValidAudience"],
+                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"] ?? throw new ArgumentException()))
                 };
-
             });
+
             var app = builder.Build();
+            // Khoi tao quyen
+            using (var scope = app.Services.CreateScope())
+            {
+                var accountRepo = scope.ServiceProvider.GetRequiredService<IAccountRepository>();
+                accountRepo.InitializeRolesAndSuperUserAsync().GetAwaiter().GetResult();
+            }
 
             // identity
             //app.MapIdentityApi<IdentityUser>();

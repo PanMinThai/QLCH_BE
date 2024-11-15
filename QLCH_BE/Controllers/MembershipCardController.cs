@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QLCH_BE.Entities.Common;
 using QLCH_BE.Models;
 using QLCH_BE.Repositories;
 
@@ -27,6 +29,7 @@ namespace QLCH_BE.Controllers
             return Ok(membershipcard);
         }
         [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Create(MembershipCardModel model)
         {
             var id = await _repository.CreateMembershipCard(model);
@@ -36,12 +39,14 @@ namespace QLCH_BE.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _repository.DeleteMembershipCard(id);
             return Ok();
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = ApplicationRole.Admin + "," + ApplicationRole.Manager)]
         public async Task<ActionResult> Update(MembershipCardModel model, Guid id)
         {
             await _repository.UpdateMembershipCard(model, id);
