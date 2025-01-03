@@ -32,8 +32,9 @@ namespace QLCH_BE.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -61,8 +62,8 @@ namespace QLCH_BE.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     BranchName = table.Column<string>(type: "text", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -77,13 +78,42 @@ namespace QLCH_BE.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CardTypeName = table.Column<string>(type: "text", nullable: false),
                     Limit = table.Column<string>(type: "text", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CardTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Menus",
+                columns: table => new
+                {
+                    Code = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Menus", x => x.Code);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OtpManagers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    Otptext = table.Column<string>(type: "text", nullable: false),
+                    Otptype = table.Column<string>(type: "text", nullable: true),
+                    Expiration = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OtpManagers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,13 +127,44 @@ namespace QLCH_BE.Migrations
                     Costprice = table.Column<decimal>(type: "numeric", nullable: true),
                     Unit = table.Column<string>(type: "text", nullable: false),
                     Avaiablequatity = table.Column<int>(type: "integer", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PwdManagers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Username = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PwdManagers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RolePermissions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserRole = table.Column<string>(type: "text", nullable: false),
+                    MenuCode = table.Column<string>(type: "text", nullable: false),
+                    HaveView = table.Column<bool>(type: "boolean", nullable: false),
+                    HaveAdd = table.Column<bool>(type: "boolean", nullable: false),
+                    HaveEdit = table.Column<bool>(type: "boolean", nullable: false),
+                    HaveDelete = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RolePermissions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,13 +178,29 @@ namespace QLCH_BE.Migrations
                     Address = table.Column<string>(type: "text", nullable: false),
                     TotalPurchaseAmount = table.Column<decimal>(type: "numeric", nullable: true),
                     TotalAmountPaid = table.Column<decimal>(type: "numeric", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Suppliers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TemporaryUsers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    Phone = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TemporaryUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -248,8 +325,8 @@ namespace QLCH_BE.Migrations
                     Email = table.Column<string>(type: "text", nullable: true),
                     Address = table.Column<string>(type: "text", nullable: true),
                     Position = table.Column<string>(type: "text", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -282,8 +359,8 @@ namespace QLCH_BE.Migrations
                     AccumulatedAmount = table.Column<decimal>(type: "numeric", nullable: true),
                     UsedAmount = table.Column<decimal>(type: "numeric", nullable: true),
                     Gender = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -301,8 +378,8 @@ namespace QLCH_BE.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -323,13 +400,13 @@ namespace QLCH_BE.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ExpenseInvoiceName = table.Column<string>(type: "text", nullable: true),
                     ExpenseAmount = table.Column<decimal>(type: "numeric", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true),
                     EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: true),
                     BrandId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     TotalAmount = table.Column<double>(type: "double precision", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true)
                 },
@@ -359,13 +436,13 @@ namespace QLCH_BE.Migrations
                     Discount = table.Column<decimal>(type: "numeric", nullable: true),
                     TotalAmountAfterDiscount = table.Column<decimal>(type: "numeric", nullable: true),
                     TotalAmountPayable = table.Column<decimal>(type: "numeric", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true),
                     EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: true),
                     BrandId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     TotalAmount = table.Column<double>(type: "double precision", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true)
                 },
@@ -400,13 +477,13 @@ namespace QLCH_BE.Migrations
                     MembershipCardId = table.Column<Guid>(type: "uuid", nullable: true),
                     Discount = table.Column<decimal>(type: "numeric", nullable: false),
                     PayableAmount = table.Column<decimal>(type: "numeric", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true),
                     EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: true),
                     BrandId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     TotalAmount = table.Column<double>(type: "double precision", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true)
                 },
@@ -444,8 +521,8 @@ namespace QLCH_BE.Migrations
                     Quantity = table.Column<int>(type: "integer", nullable: true),
                     UnitPrice = table.Column<decimal>(type: "numeric", nullable: true),
                     TotalAmount = table.Column<decimal>(type: "numeric", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -603,6 +680,21 @@ namespace QLCH_BE.Migrations
 
             migrationBuilder.DropTable(
                 name: "InvoiceDetails");
+
+            migrationBuilder.DropTable(
+                name: "Menus");
+
+            migrationBuilder.DropTable(
+                name: "OtpManagers");
+
+            migrationBuilder.DropTable(
+                name: "PwdManagers");
+
+            migrationBuilder.DropTable(
+                name: "RolePermissions");
+
+            migrationBuilder.DropTable(
+                name: "TemporaryUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

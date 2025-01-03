@@ -12,7 +12,7 @@ using QLCH_BE;
 namespace QLCH_BE.Migrations
 {
     [DbContext(typeof(StoreManagementDbContext))]
-    [Migration("20241114091558_init")]
+    [Migration("20241231000340_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -155,6 +155,131 @@ namespace QLCH_BE.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("QLCH_BE.Entities.AccountManagement.Menu", b =>
+                {
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("Menus");
+                });
+
+            modelBuilder.Entity("QLCH_BE.Entities.AccountManagement.OtpManager", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("Expiration")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Otptext")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Otptype")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OtpManagers");
+                });
+
+            modelBuilder.Entity("QLCH_BE.Entities.AccountManagement.PwdManager", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PwdManagers");
+                });
+
+            modelBuilder.Entity("QLCH_BE.Entities.AccountManagement.RolePermission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("HaveAdd")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HaveDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HaveEdit")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HaveView")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("MenuCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserRole")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("QLCH_BE.Entities.AccountManagement.TemporaryUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TemporaryUsers");
+                });
+
             modelBuilder.Entity("QLCH_BE.Entities.Invoice.ExpenseInvoiceEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -168,7 +293,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uuid");
@@ -186,13 +311,13 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Time")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<double>("TotalAmount")
                         .HasColumnType("double precision");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -210,7 +335,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal?>("Discount")
                         .HasColumnType("numeric");
@@ -237,7 +362,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -263,7 +388,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("numeric");
@@ -284,13 +409,13 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("Time")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<double>("TotalAmount")
                         .HasColumnType("double precision");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -316,7 +441,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal?>("Discount")
                         .HasColumnType("numeric");
@@ -334,7 +459,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Time")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<double>("TotalAmount")
                         .HasColumnType("double precision");
@@ -346,7 +471,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -373,7 +498,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -403,6 +528,10 @@ namespace QLCH_BE.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
@@ -416,7 +545,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -449,13 +578,13 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -473,7 +602,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Limit")
                         .IsRequired()
@@ -483,7 +612,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -506,7 +635,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("DateOfbirth")
                         .HasColumnType("text");
@@ -537,7 +666,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -556,13 +685,13 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -585,7 +714,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
@@ -604,7 +733,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal?>("UsedAmount")
                         .HasColumnType("numeric");
@@ -632,7 +761,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("ImageId")
                         .HasColumnType("uuid");
@@ -652,7 +781,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -670,7 +799,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Note")
                         .HasColumnType("text");
@@ -694,7 +823,7 @@ namespace QLCH_BE.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 

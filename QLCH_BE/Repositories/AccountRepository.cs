@@ -2,7 +2,8 @@
 using Microsoft.IdentityModel.Tokens;
 using QLCH_BE.Entities.Common;
 using QLCH_BE.Entities.Objects;
-using QLCH_BE.Models;
+using QLCH_BE.Models.AccountManagement;
+using QLCH_BE.Service;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -11,8 +12,8 @@ namespace QLCH_BE.Repositories
 {
     public interface IAccountRepository
     {
-        public Task<IdentityResult> SignUpAsync(SignUpModel model);
-        public Task<string> SignInAsync(SignInModel model);
+        ////public Task<IdentityResult> SignUpAsync(SignUpModel model);
+        ////public Task<(string accessToken, string refreshToken)> SignInAsync(SignInModel model);
         public Task InitializeRolesAndSuperUserAsync();
     }
     public class AccountRepository : IAccountRepository
@@ -29,51 +30,57 @@ namespace QLCH_BE.Repositories
             _configuration = configuration;
             _roleManager = roleManager;
         }
-        public async Task<string> SignInAsync(SignInModel model)
-        {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            var passwordValid = await _userManager.CheckPasswordAsync(user, model.Password);
+        //public async Task<(string accessToken, string refreshToken)> SignInAsync(SignInModel model)
+        //{
+        //    var user = await _userManager.FindByEmailAsync(model.Email);
+        //    if (user == null || !(await _userManager.CheckPasswordAsync(user, model.Password)))
+        //        return (string.Empty, string.Empty);
 
-            if (user == null || !passwordValid)
-                return string.Empty;
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-            if (!result.Succeeded)
-                return string.Empty;
-            var authClaims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, model.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+        //    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+        //    if (!result.Succeeded)
+        //        return (string.Empty, string.Empty);
 
-            var userRoles = await _userManager.GetRolesAsync(user);
+        //    // Tạo danh sách các claims 
+        //    var authClaims = new List<Claim>
+        //{
+        //    new Claim(ClaimTypes.Email, model.Email),
+        //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        //};
 
-            foreach (var role in userRoles)
-                authClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+        //    var userRoles = await _userManager.GetRolesAsync(user);
+        //    foreach (var role in userRoles)
+        //        authClaims.Add(new Claim(ClaimTypes.Role, role));
 
-            var authenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+        //    // Tạo Access Token
+        //    var authenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+        //    var token = new JwtSecurityToken(
+        //        issuer: _configuration["JWT:ValidIssuer"],
+        //        audience: _configuration["JWT:ValidAudience"],
+        //        expires: DateTime.Now.AddMinutes(20), // Thời gian hết hạn của Access Token
+        //        claims: authClaims,
+        //        signingCredentials: new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha512Signature)
+        //    );
+        //    var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddMinutes(20),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha512Signature)
-            );
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-        public async Task<IdentityResult> SignUpAsync(SignUpModel model)
-        {
-            var user = new ApplicationUser
-            {
-                Name = model.Name,
-                Email = model.Email,
-                UserName = model.Email
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-                await _userManager.AddToRoleAsync(user, ApplicationRole.Employee);
-            return result;
-        }
+        //    // Tạo Refresh Token thông qua TokenService
+        //    var refreshToken = await _tokenService.CreateRefreshTokenAsync(user.Id);
+
+        //    return (accessToken, refreshToken);
+        //}
+
+        //public async Task<IdentityResult> SignUpAsync(SignUpModel model)
+        //{
+        //    var user = new ApplicationUser
+        //    {
+        //        Name = model.Name,
+        //        Email = model.Email,
+        //        UserName = model.Email
+        //    };
+        //    var result = await _userManager.CreateAsync(user, model.Password);
+        //    if (result.Succeeded)
+        //        await _userManager.AddToRoleAsync(user, ApplicationRole.Employee);
+        //    return result;
+        //}
         public async Task InitializeRolesAndSuperUserAsync()
         {
             // Tạo các role mặc định nếu chưa tồn tại
@@ -100,7 +107,9 @@ namespace QLCH_BE.Repositories
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     CreatedTime = DateTime.Now,
-                    UpdatedTime = DateTime.Now
+                    UpdatedTime = DateTime.Now, 
+                    Phone = "0846972196"
+
                 };
 
                 var result = await _userManager.CreateAsync(superUser, "Admin@123");

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using QLCH_BE.Common.Interface;
+using QLCH_BE.Entities.AccountManagement;
 using QLCH_BE.Entities.Common;
 using QLCH_BE.Entities.Invoice;
 using QLCH_BE.Entities.Objects;
@@ -23,6 +24,13 @@ namespace QLCH_BE
         public DbSet<InvoiceDetailEntity> InvoiceDetails { get; set; }
         public DbSet<InvoiceEntity> Invoices { get; set; }
         public DbSet<PurchaseInvoiceEntity> PurchaseInvoices { get;set; }
+        public DbSet<TemporaryUser> TemporaryUsers { get; set; }
+        public DbSet<OtpManager> OtpManagers { get; set; }
+        public DbSet<PwdManager> PwdManagers { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
         public StoreManagementDbContext(DbContextOptions<StoreManagementDbContext> options) : base(options) { }
         public override int SaveChanges()
         {

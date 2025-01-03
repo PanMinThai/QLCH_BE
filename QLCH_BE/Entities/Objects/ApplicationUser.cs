@@ -11,6 +11,8 @@ namespace QLCH_BE.Entities.Objects
         public DateTime CreatedTime { get; set; }
         public EmployeeEntity? Employee { get; set; }
 
+        public string Phone { get; set; }
+
         public ApplicationUser()
         {
             CreatedTime = DateTime.Now;

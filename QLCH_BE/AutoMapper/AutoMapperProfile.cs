@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using QLCH_BE.Entities.AccountManagement;
 using QLCH_BE.Entities.Common;
 using QLCH_BE.Entities.Objects;
+using QLCH_BE.Modal;
 using QLCH_BE.Models;
 
 namespace QLCH_BE.AutoMapper
@@ -17,6 +19,7 @@ namespace QLCH_BE.AutoMapper
             CreateMap<MembershipCardEntity,MembershipCardModel>().ReverseMap();
             CreateMap<ProductEntity,ProductModel>().ReverseMap();   
             CreateMap<SupplierEntity,SupplierModel>().ReverseMap();
+            CreateMap<Menu, MenuModel>().ReverseMap();
         }
     }
 }
